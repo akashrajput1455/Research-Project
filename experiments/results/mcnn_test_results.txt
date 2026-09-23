@@ -1,0 +1,9 @@
+MCNN TEST RESULTS
+============================================================
+Test images: 182
+MAE: 158.8724
+RMSE: 234.2364
+Parameters: 367841
+Model size: 1.41 MB
+Average inference time: 6.13 ms
+FPS: 163.18
