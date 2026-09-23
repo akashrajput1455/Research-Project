@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 from PIL import Image
 from torchvision import transforms
 
-from src.density_map import (
+from density_map import (
     load_points_from_mat,
     calculate_sigmas,
     generate_density_map

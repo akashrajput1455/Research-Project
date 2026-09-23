@@ -1,9 +1,9 @@
 from pathlib import Path
-
+from src.models import MCNN
 import torch
 
 from src.dataset import create_part_a_dataset
-from src.models import BaselineCNN
+# from src.models import BaselineCNN
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -20,7 +20,8 @@ device = torch.device(
 )
 
 print("=" * 60)
-print("BASELINE CNN VERIFICATION")
+# print("BASELINE CNN VERIFICATION")
+print("MCNN VERIFICATION")
 print("=" * 60)
 
 print("Device:", device)
@@ -32,7 +33,9 @@ print("Device:", device)
 
 train_dataset, test_dataset = create_part_a_dataset(
     PROJECT_ROOT,
-    image_size=IMAGE_SIZE
+    # image_size=IMAGE_SIZE
+    image_size=512,
+    density_size=64
 )
 
 sample = train_dataset[0]
@@ -49,7 +52,9 @@ print("Image shape:", image.shape)
 # Create model
 # --------------------------------------------------
 
-model = BaselineCNN().to(device)
+# model = BaselineCNN().to(device)
+
+model = MCNN().to(device)
 
 image = image.to(device)
 
