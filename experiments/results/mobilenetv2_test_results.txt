@@ -1,0 +1,9 @@
+MOBILENETV2 TEST RESULTS
+============================================================
+Test images: 182
+MAE: 168.8976
+RMSE: 256.6986
+Parameters: 5320833
+Model size: 20.53 MB
+Average inference time: 6.60 ms
+FPS: 151.44

@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
-
+import torch.nn.functional as F
+from torchvision import models
 
 class BaselineCNN(nn.Module):
 
@@ -276,5 +277,59 @@ class MCNN(nn.Module):
             align_corners=False
         )
 
+
+        return density
+
+class MobileNetV2CrowdCounter(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+        # Load MobileNetV2 architecture
+        mobilenet = models.mobilenet_v2(weights=None)
+
+        # Use MobileNetV2 feature extractor
+        self.backbone = mobilenet.features
+
+        # MobileNetV2 produces 1280 feature channels
+        self.regression = nn.Sequential(
+            nn.Conv2d(
+                1280,
+                256,
+                kernel_size=3,
+                padding=1
+            ),
+            nn.ReLU(inplace=True),
+
+            nn.Conv2d(
+                256,
+                64,
+                kernel_size=3,
+                padding=1
+            ),
+            nn.ReLU(inplace=True),
+
+            nn.Conv2d(
+                64,
+                1,
+                kernel_size=1
+            )
+        )
+
+    def forward(self, x):
+
+        # Extract features
+        features = self.backbone(x)
+
+        # Generate density map
+        density = self.regression(features)
+
+        # Resize to our target density-map size
+        density = F.interpolate(
+            density,
+            size=(64, 64),
+            mode="bilinear",
+            align_corners=False
+        )
 
         return density
