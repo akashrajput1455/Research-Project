@@ -1,0 +1,11 @@
+torch==2.14.0+cu130
+torchvision==0.29.0+cu130
+numpy==2.5.3
+scipy==1.17.1
+opencv-python==5.0.0.93
+Pillow==12.3.0
+h5py==3.16.0
+matplotlib==3.11.1
+pandas==3.0.5
+tqdm==4.70.1
+scikit-learn==1.9.1
