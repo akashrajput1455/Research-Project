@@ -1,0 +1,9 @@
+MOBILENETV3-SMALL TEST RESULTS
+============================================================
+Test images: 182
+MAE: 195.2549
+RMSE: 300.2009
+Parameters: 2401953
+Model size: 9.29 MB
+Average inference time: 7.57 ms
+FPS: 132.16

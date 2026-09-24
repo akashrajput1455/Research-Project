@@ -333,3 +333,59 @@ class MobileNetV2CrowdCounter(nn.Module):
         )
 
         return density
+
+class MobileNetV3SmallCrowdCounter(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+        # Load MobileNetV3-Small architecture
+        mobilenet = models.mobilenet_v3_small(
+            weights=None
+        )
+
+        # Use MobileNetV3-Small feature extractor
+        self.backbone = mobilenet.features
+
+        # MobileNetV3-Small produces 576 feature channels
+        self.regression = nn.Sequential(
+            nn.Conv2d(
+                576,
+                256,
+                kernel_size=3,
+                padding=1
+            ),
+            nn.ReLU(inplace=True),
+
+            nn.Conv2d(
+                256,
+                64,
+                kernel_size=3,
+                padding=1
+            ),
+            nn.ReLU(inplace=True),
+
+            nn.Conv2d(
+                64,
+                1,
+                kernel_size=1
+            )
+        )
+
+    def forward(self, x):
+
+        # Extract features
+        features = self.backbone(x)
+
+        # Generate density map
+        density = self.regression(features)
+
+        # Resize to our target density-map size
+        density = F.interpolate(
+            density,
+            size=(64, 64),
+            mode="bilinear",
+            align_corners=False
+        )
+
+        return density
